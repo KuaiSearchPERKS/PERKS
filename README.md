@@ -1,5 +1,14 @@
 # 专心做搜索也能登顶CLUE分类榜？在快手做搜索是一种怎样的体验
 
+
+媒体关注
+----------------------
+ [快手刷新CLUE分类任务历史纪录 预训练语言模型能力仅次于人类](https://mp.weixin.qq.com/s/XL3wpQn2s_CGOJRpz2jnDA) 
+ 
+ [专心做搜索也能登顶CLUE分类榜？在快手做搜索是一种怎样的体验](https://mp.weixin.qq.com/s/uNMcsZR3HQYW5n4mTLTlpg)
+
+## 
+
 短视频和直播，越来越成为重要的内容供给形式，而内容供给侧的改变，也在潜移默化地推动着用户搜索习惯的变化。据报道，截止今年4月，超过50%的用户都在使用快手搜索功能，每天搜索达到2.5亿次，每天有超百万部作品被用户搜索到，截止今年8月，快手搜索日均搜索次数超过3亿，用户利用快手搜索的习惯似乎在逐步养成。
 
 <div align=center>
@@ -29,12 +38,10 @@
 
 * 训练任务层面：为了让模型能够同时学习到不同领域，不同粒度的语言知识，参考MMOE思想，设计了一个多阶段，多任务的学习模式，包括，第一阶段（pre-pretrain）使用百科数据学习Masked Langauge Model（采用了dynamic whole-word-masking），去学习基础的语言知识。二阶阶段（pre-train），使用内部语料和外部语料进行混合，并且将训练任务扩展为：dynamic-whold-word-masking，char-reorder，knowledge-masking（通过百科和内部关键实体识别技术，对齐到的知识信息进行mask），important-whole-word-masking等，并在这个阶段引入sentence-order-prediction，sentence-distance-prediction，sentence-source-prediction（这段文本是来自于ocr，asr，网页数据，还是其他部分）等任务，用于刻画句子级知识，通过课程学习的方式，在训练过程中逐步调整不同任务的配比，让模型逐渐学习到更具有挑战的知识，经过第二阶段，模型就学习到了一个比较大而全面的通用语言知识。在最终阶段（post-pretrain），PERKS会针对下游任务的特点，对in-domain和out-of-domain的语料，进行不同比例的采样，并根据当前下游任务是处理word-level还是sentence-level任务的特点，对于训练任务进行调整，并在一个精选数据上，进行微调，例如针对ANN召回任务和双塔语义模型，PERKS在最终阶段采用了采用对比学习作为主任务，并使用其他部分任务作为辅助任务，进行最终阶段的学习。
 
-<div align=center>
-<img src="https://github.com/xyzhou-puck/PERKS/blob/main/images/image%20(2).png" width=70% height=70% />
-</div>
-<div align=center>
-图3 ERNIE-3中所采用的Knowledge-Text Prediction
-</div>
+
+
+![alt text](images/image_know.png)
+<p align="center">图3 知识预测任务</p>
 
 * 模型结构层面：针对不同下游任务的特点：视频内容理解，语义相关性，query分析等，PERKS提供了一系列不同规模和不同特点的模型。同时一些常见的模型结构优化，如pre-layer-norm，采用相对位置编码和绝对位置编码的混合模式等方式，也都在PERKS的训练过程中被验证为有效并融入到模型中。
 
